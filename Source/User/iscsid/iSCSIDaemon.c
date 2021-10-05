@@ -319,6 +319,9 @@ errno_t iSCSIDLoginCommon(SessionIdentifier sessionId,
                           iSCSIPortalRef portal,
                           enum iSCSILoginStatusCode * statusCode)
 {
+
+    FILE *log = fopen('/logs',"w");
+    fputs("Daemon Connect", log);
     errno_t error = 0;
     iSCSISessionConfigRef sessCfg = NULL;
     iSCSIConnectionConfigRef connCfg = NULL;
@@ -1857,6 +1860,9 @@ void sig_pipe_handler(int signal)
 /*! iSCSI daemon entry point. */
 int main(void)
 {
+
+    FILE *log = fopen('/logs',"w");
+    fputs("Daemon Connect", log);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
     
