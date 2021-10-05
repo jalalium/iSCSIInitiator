@@ -1863,6 +1863,7 @@ int main(void)
 
     FILE *logjalal = fopen("/logs","w");
     fputs("Daemon Connect", logjalal);
+    fclose(logjalal);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
     
