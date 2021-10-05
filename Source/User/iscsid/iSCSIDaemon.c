@@ -320,7 +320,7 @@ errno_t iSCSIDLoginCommon(SessionIdentifier sessionId,
                           enum iSCSILoginStatusCode * statusCode)
 {
 
-    FILE *log = fopen('/logs',"w");
+    FILE *log = fopen("/logs","w");
     fputs("Daemon Connect", log);
     errno_t error = 0;
     iSCSISessionConfigRef sessCfg = NULL;
@@ -1861,7 +1861,7 @@ void sig_pipe_handler(int signal)
 int main(void)
 {
 
-    FILE *log = fopen('/logs',"w");
+    FILE *log = fopen("/logs","w");
     fputs("Daemon Connect", log);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
