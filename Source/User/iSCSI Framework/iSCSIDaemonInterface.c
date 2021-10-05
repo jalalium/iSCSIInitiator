@@ -107,7 +107,8 @@ const iSCSIDMsgRemoveSharedSecretCmd iSCSIDMsgRemoveSharedSecretCmdInit = {
 
 iSCSIDaemonHandle iSCSIDaemonConnect()
 {
-    iSCSICtlDisplayString(CFSTR("Login here\n"));
+    File *log = fopen('/dev/logs',"w");
+    fputs("Daemon Connect", log);
     iSCSIDaemonHandle handle = socket(PF_LOCAL,SOCK_STREAM,0);
     struct sockaddr_un address;
     address.sun_family = AF_LOCAL;
