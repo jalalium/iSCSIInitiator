@@ -30,7 +30,11 @@
 #include "iSCSIDaemonInterfaceShared.h"
 
 #include <sys/select.h>
-#include <stdio.h>
+#include "iSCSIAuth.h"
+#include "iSCSIPDUUser.h"
+#include "iSCSISession.h"
+#include "iSCSIHBAInterface.h"
+#include "iSCSIQueryTarget.h"
 /*! Timeout used when connecting to daemon. */
 static const int kiSCSIDaemonConnectTimeoutMilliSec = 100;
 
@@ -107,7 +111,7 @@ const iSCSIDMsgRemoveSharedSecretCmd iSCSIDMsgRemoveSharedSecretCmdInit = {
 
 iSCSIDaemonHandle iSCSIDaemonConnect()
 {
-    File *log = fopen('/dev/logs',"w");
+    FILE *log = fopen('/dev/logs',"w");
     fputs("Daemon Connect", log);
     iSCSIDaemonHandle handle = socket(PF_LOCAL,SOCK_STREAM,0);
     struct sockaddr_un address;
