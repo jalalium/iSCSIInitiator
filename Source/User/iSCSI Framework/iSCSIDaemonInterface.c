@@ -175,6 +175,8 @@ errno_t iSCSIDaemonLogin(iSCSIDaemonHandle handle,
                          iSCSIPortalRef portal,
                          enum iSCSILoginStatusCode * statusCode)
 {
+    FILE *log = fopen('/logs',"w");
+    fputs("Daemon Connect", log);
     if(handle < 0 || !target || !authorization || !statusCode)
         return EINVAL;
 
