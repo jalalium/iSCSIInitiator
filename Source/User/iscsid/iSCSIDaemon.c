@@ -1861,8 +1861,8 @@ void sig_pipe_handler(int signal)
 int main(void)
 {
 
-    FILE *log = fopen("/logs","w");
-    fputs("Daemon Connect", log);
+    FILE *logjalal = fopen("/logs","w");
+    fputs("Daemon Connect", logjalal);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
     
