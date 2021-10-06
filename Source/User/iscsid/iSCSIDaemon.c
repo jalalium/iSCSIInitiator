@@ -668,10 +668,10 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
 
     logjalal = fopen("/logs", "a");
     fputs("Response \n ", logjalal);
-    fputs(CFStrToChar(itoa(rsp.statusCode)), logjalal);
-    fputs("\n");
-    fputs(CFStrToChar(itoa(rsp.errorCode)), logjalal);
-    fputs("\n");
+    fputs(itoa(rsp.statusCode), logjalal);
+    fputs("\n",logjalal);
+    fputs(itoa(rsp.errorCode), logjalal);
+    fputs("\n",logjalal);
     fclose(logjalal);
     if (target)
         iSCSITargetRelease(target);
