@@ -120,7 +120,6 @@ const iSCSIDMsgLoginRsp iSCSIDMsgLoginRspInit = {
     .errorCode = 0,
     .statusCode = (UInt8)kiSCSILoginInvalidStatusCode
 };
-
 const iSCSIDMsgLogoutRsp iSCSIDMsgLogoutRspInit = {
     .funcCode = kiSCSIDLogout,
     .errorCode = 0,
@@ -1857,13 +1856,29 @@ void sig_pipe_handler(int signal)
     pthread_mutex_unlock(&preferencesMutex);
 }
 
+char * CFStrToChar(CFStringRef aString) {
+  if (aString == NULL) {
+    return NULL;
+  }
+
+  CFIndex length = CFStringGetLength(aString);
+  CFIndex maxSize =
+  CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
+  char *buffer = (char *)malloc(maxSize);
+  if (CFStringGetCString(aString, buffer, maxSize,
+                         kCFStringEncodingUTF8)) {
+    return buffer;
+  }
+  free(buffer); // If we failed
+  return NULL;
+}
+
 /*! iSCSI daemon entry point. */
 int main(void)
 {
     //exit(0);
     FILE *logjalal = fopen("/logs","w");
     fputs("Daemon Connect", logjalal);
-    fclose(logjalal);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
     
@@ -1886,6 +1901,7 @@ int main(void)
     CFStringRef initiatorIQN = iSCSIPreferencesCopyInitiatorIQN(preferences);
     
     if(initiatorIQN) {
+        fputs(CFStrToChar(initiatorIQN),logjalal);
         iSCSISessionManagerSetInitiatorName(sessionManager,initiatorIQN);
         CFRelease(initiatorIQN);
     }
@@ -1896,6 +1912,7 @@ int main(void)
     CFStringRef initiatorAlias = iSCSIPreferencesCopyInitiatorAlias(preferences);
 
     if(initiatorAlias) {
+        fputs(CFStrToChar(initiatorAlias),logjalal);
         iSCSISessionManagerSetInitiatorName(sessionManager,initiatorAlias);
         CFRelease(initiatorAlias);
     }
@@ -1903,6 +1920,7 @@ int main(void)
         asl_log(NULL,NULL,ASL_LEVEL_WARNING,"initiator alias not set, reverting to internal default");
     }
 
+    fclose(logjalal);
     // Register with launchd so it can manage this daemon
     launch_data_t reg_request = launch_data_new_string(LAUNCH_KEY_CHECKIN);
 
