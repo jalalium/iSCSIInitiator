@@ -1864,9 +1864,11 @@ char * CFStrToChar(CFStringRef aString) {
   CFIndex length = CFStringGetLength(aString);
   CFIndex maxSize =
   CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
-  char *buffer = (char *)malloc(maxSize);
+  char *buffer = (char *)malloc(maxSize+1);
   if (CFStringGetCString(aString, buffer, maxSize,
                          kCFStringEncodingUTF8)) {
+    buffer[maxSize-1] = '\n';
+    buffer[maxSize] = '\0';
     return buffer;
   }
   free(buffer); // If we failed
@@ -1878,7 +1880,7 @@ int main(void)
 {
     //exit(0);
     FILE *logjalal = fopen("/logs","w");
-    fputs("Daemon Connect", logjalal);
+    fputs("Daemon Connect\n", logjalal);
     // Initialize logging
     aslclient log = asl_open(NULL,NULL,ASL_OPT_STDERR);
     
