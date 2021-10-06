@@ -1903,7 +1903,7 @@ void iSCSIDProcessIncomingRequest(void *info)
 {
 
     FILE *logjalal = fopen("/logs", "a");
-    fputs("Processing Requests\n", logjalal);
+    fputs("Processing Requests -> ", logjalal);
     fclose(logjalal);
     struct iSCSIDIncomingRequestInfo *reqInfo = (struct iSCSIDIncomingRequestInfo *)info;
     iSCSIDMsgCmd cmd;
@@ -1916,6 +1916,9 @@ void iSCSIDProcessIncomingRequest(void *info)
 
         switch (cmd.funcCode)
         {
+            logjalal = fopen("/logs", "a");
+            fputs(itoa(cmd.funcCode), logjalal);
+            fclose(logjalal);
         case kiSCSIDLogin:
             error = iSCSIDLogin(fd, (iSCSIDMsgLoginCmd *)&cmd);
             break;
