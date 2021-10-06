@@ -878,7 +878,7 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     }
 
     logjalal = fopen("/logs", "a");
-    fputs(5, logjalal);
+    fputs("5\n", logjalal);
     fclose(logjalal);
     // See if there exists an active connection for this portal
     ConnectionIdentifier connectionId = kiSCSIInvalidConnectionId;
@@ -915,7 +915,7 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     }
 
     logjalal = fopen("/logs", "a");
-    fputs(6, logjalal);
+    fputs("6\n", logjalal);
     fclose(logjalal);
     // Unmount volumes if portal not specified (session logout)
     // or if portal is specified and is only connection...
@@ -927,7 +927,7 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     context->diskSession = NULL;
 
     logjalal = fopen("/logs", "a");
-    fputs(7, logjalal);
+    fputs("7\n", logjalal);
     fclose(logjalal);
     // Unmount and session logout
 
@@ -951,7 +951,7 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     }
 
     logjalal = fopen("/logs", "a");
-    fputs(8, logjalal);
+    fputs("8\n", logjalal);
     fclose(logjalal);
     return 0;
 }
