@@ -1916,78 +1916,92 @@ void iSCSIDProcessIncomingRequest(void *info)
 
         switch (cmd.funcCode)
         {
-            logjalal = fopen("/logs", "a");
         case kiSCSIDLogin:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDLogin\n", logjalal);
             fclose(logjalal);
             error = iSCSIDLogin(fd, (iSCSIDMsgLoginCmd *)&cmd);
             break;
         case kiSCSIDLogout:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDLogout\n", logjalal);
             fclose(logjalal);
             error = iSCSIDLogout(fd, (iSCSIDMsgLogoutCmd *)&cmd);
             break;
         case kiSCSIDCreateArrayOfActiveTargets:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDCreateArrayOfActiveTargets\n", logjalal);
             fclose(logjalal);
             error = iSCSIDCreateArrayOfActiveTargets(fd, (iSCSIDMsgCreateArrayOfActiveTargetsCmd *)&cmd);
             break;
         case kiSCSIDCreateArrayOfActivePortalsForTarget:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDCreateArrayOfActivePortalsForTargets\n", logjalal);
             fclose(logjalal);
             error = iSCSIDCreateArrayofActivePortalsForTarget(fd, (iSCSIDMsgCreateArrayOfActivePortalsForTargetCmd *)&cmd);
             break;
         case kiSCSIDIsTargetActive:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDIsTargteActive\n", logjalal);
             fclose(logjalal);
             error = iSCSIDIsTargetActive(fd, (iSCSIDMsgIsTargetActiveCmd *)&cmd);
             break;
         case kiSCSIDIsPortalActive:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDIsPortalActive\n", logjalal);
             fclose(logjalal);
             error = iSCSIDIsPortalActive(fd, (iSCSIDMsgIsPortalActiveCmd *)&cmd);
             break;
         case kiSCSIDQueryTargetForAuthMethod:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDQueryTargetForAuthMethod\n", logjalal);
             fclose(logjalal);
             error = iSCSIDQueryTargetForAuthMethod(fd, (iSCSIDMsgQueryTargetForAuthMethodCmd *)&cmd);
             break;
         case kiSCSIDCreateCFPropertiesForSession:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDCreateCFPropertiesForSession\n", logjalal);
             fclose(logjalal);
             error = iSCSIDCreateCFPropertiesForSession(fd, (iSCSIDMsgCreateCFPropertiesForSessionCmd *)&cmd);
             break;
         case kiSCSIDCreateCFPropertiesForConnection:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDCreateCFPropertiesForConnection\n", logjalal);
             fclose(logjalal);
             error = iSCSIDCreateCFPropertiesForConnection(fd, (iSCSIDMsgCreateCFPropertiesForConnectionCmd *)&cmd);
             break;
         case kiSCSIDUpdateDiscovery:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDUpdateDiscovery\n", logjalal);
             fclose(logjalal);
             error = iSCSIDUpdateDiscovery(fd, (iSCSIDMsgUpdateDiscoveryCmd *)&cmd);
             break;
         case kiSCSIDPreferencesIOLockAndSync:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDPreferencesIOLockAndSync\n", logjalal);
             fclose(logjalal);
             error = iSCSIDPreferencesIOLockAndSync(fd, (iSCSIDMsgPreferencesIOLockAndSyncCmd *)&cmd);
             break;
         case kiSCSIDPreferencesIOUnlockAndSync:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDPreferencesIOUnlockAndSync\n", logjalal);
             fclose(logjalal);
             error = iSCSIDPreferencesIOUnlockAndSync(fd, (iSCSIDMsgPreferencesIOUnlockAndSyncCmd *)&cmd);
             break;
         case kiSCSIDSetSharedSecret:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDSetSharedSecret\n", logjalal);
             fclose(logjalal);
             error = iSCSIDSetSharedSecret(fd, (iSCSIDMsgSetSharedSecretCmd *)&cmd);
             break;
         case kiSCSIDRemoveSharedSecret:
+            logjalal = fopen("/logs", "a");
             fputs("kiSCSIDRemoveSharedSecret\n", logjalal);
             fclose(logjalal);
             error = iSCSIDRemoveSharedSecret(fd, (iSCSIDMsgRemoveSharedSecretCmd *)&cmd);
             break;
         default:
+            logjalal = fopen("/logs", "a");
             fputs("Default\n", logjalal);
             fclose(logjalal);
             CFSocketInvalidate(reqInfo->socket);
