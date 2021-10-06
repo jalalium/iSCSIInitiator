@@ -595,7 +595,7 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
         iSCSITargetRef targetTemp = iSCSITargetCreateWithData(targetData);
 
         FILE *logjalal = fopen("/logs", "a");
-        fputs(CFStrToChar(CFCopyDescription(iSCSITargetRef)), logjalal);
+        fputs(CFStrToChar(CFCopyDescription(targetTemp)), logjalal);
         fclose(logjalal);
         target = iSCSITargetCreateMutableCopy(targetTemp);
         iSCSITargetRelease(targetTemp);
