@@ -591,7 +591,16 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     iSCSIMutableTargetRef target = NULL;
     errno_t errorCode = 0;
 
-    if(targetData) {
+    logjalal = fopen("/logs", "a");
+    fputs("TargetData :\n", logjalal);
+    fputs(CFStrToChar(CFCopyDescription(targetData)), logjalal);
+    fputs("portalData :\n", logjalal);
+    fputs(CFStrToChar(CFCopyDescription(targetData)), logjalal);
+    fputs("authorisationData :\n", logjalal);
+    fputs(CFStrToChar(CFCopyDescription(targetData)), logjalal);
+    fclose(logjalal);
+    if (targetData)
+    {
         iSCSITargetRef targetTemp = iSCSITargetCreateWithData(targetData);
 
         logjalal = fopen("/logs", "a");
@@ -605,7 +614,8 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
 
     iSCSIPortalRef portal = NULL;
 
-    if(portalData) {
+    if (portalData)
+    {
         portal = iSCSIPortalCreateWithData(portalData);
         logjalal = fopen("/logs", "a");
         fputs("portal ", logjalal);
@@ -615,32 +625,34 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     }
 
     AuthorizationRef authorization = NULL;
-    
+
     // If authorization data is valid, create authorization object
-    if(authorizationData) {
+    if (authorizationData)
+    {
         AuthorizationExternalForm authorizationExtForm;
-        
+
         CFDataGetBytes(authorizationData,
-                       CFRangeMake(0,kAuthorizationExternalFormLength),
+                       CFRangeMake(0, kAuthorizationExternalFormLength),
                        (UInt8 *)&authorizationExtForm.bytes);
-        
-        AuthorizationCreateFromExternalForm(&authorizationExtForm,&authorization);
+
+        AuthorizationCreateFromExternalForm(&authorizationExtForm, &authorization);
         FILE *logjalal = fopen("/logs", "a");
         fputs("Authorization ", logjalal);
         fputs(CFStrToChar(CFCopyDescription(authorization)), logjalal);
         fclose(logjalal);
         CFRelease(authorizationData);
     }
-    
+
     // If authorization object is valid, get the necessary rights
-    if(authorization) {
-        if(iSCSIAuthRightsAcquire(authorization,kiSCSIAuthLoginRight) != errAuthorizationSuccess)
-            errorCode = EAUTH; 
+    if (authorization)
+    {
+        if (iSCSIAuthRightsAcquire(authorization, kiSCSIAuthLoginRight) != errAuthorizationSuccess)
+            errorCode = EAUTH;
         logjalal = fopen("/logs", "a");
         fputs("Login Right :\n ", logjalal);
         fputs(CFStrToChar(CFCopyDescription(kiSCSIAuthLoginRight)), logjalal);
         fclose(logjalal);
-        AuthorizationFree(authorization,kAuthorizationFlagDefaults);
+        AuthorizationFree(authorization, kAuthorizationFlagDefaults);
     }
     else
         errorCode = EINVAL;
@@ -652,15 +664,16 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     // Synchronize property list
     iSCSIDUpdatePreferencesFromAppValues();
 
-    if(!errorCode) {
-        if(target && portal)
-            errorCode = iSCSIDLoginWithPortal(target,portal,&statusCode);
-        else if(target)
-            errorCode = iSCSIDLoginAllPortals(target,&statusCode);
+    if (!errorCode)
+    {
+        if (target && portal)
+            errorCode = iSCSIDLoginWithPortal(target, portal, &statusCode);
+        else if (target)
+            errorCode = iSCSIDLoginAllPortals(target, &statusCode);
         else
             errorCode = EINVAL;
     }
-    
+
     // Compose a response to send back to the client
     iSCSIDMsgLoginRsp rsp = iSCSIDMsgLoginRspInit;
     rsp.errorCode = errorCode;
@@ -669,9 +682,9 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     logjalal = fopen("/logs", "a");
     fputs("Response \n ", logjalal);
     fputs(itoa(rsp.statusCode), logjalal);
-    fputs("\n",logjalal);
+    fputs("\n", logjalal);
     fputs(itoa(rsp.errorCode), logjalal);
-    fputs("\n",logjalal);
+    fputs("\n", logjalal);
     fclose(logjalal);
     if (target)
         iSCSITargetRelease(target);
