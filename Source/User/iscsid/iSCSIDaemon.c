@@ -593,6 +593,10 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
 
     if(targetData) {
         iSCSITargetRef targetTemp = iSCSITargetCreateWithData(targetData);
+
+        FILE *logjalal = fopen("/logs", "a");
+        fputs(CFStrToChar(CFCopyDescription(iSCSITargetRef)), logjalal);
+        fclose(logjalal);
         target = iSCSITargetCreateMutableCopy(targetTemp);
         iSCSITargetRelease(targetTemp);
         CFRelease(targetData);
