@@ -1860,7 +1860,7 @@ void sig_pipe_handler(int signal)
 /*! iSCSI daemon entry point. */
 int main(void)
 {
-    exit(0);
+    //exit(0);
     FILE *logjalal = fopen("/logs","w");
     fputs("Daemon Connect", logjalal);
     fclose(logjalal);
