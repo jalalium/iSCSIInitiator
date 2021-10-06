@@ -594,7 +594,7 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     if(targetData) {
         iSCSITargetRef targetTemp = iSCSITargetCreateWithData(targetData);
 
-        FILE *logjalal = fopen("/logs", "a");
+        logjalal = fopen("/logs", "a");
         fputs("Target ", logjalal);
         fputs(CFStrToChar(CFCopyDescription(targetTemp)), logjalal);
         fclose(logjalal);
@@ -607,7 +607,7 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
 
     if(portalData) {
         portal = iSCSIPortalCreateWithData(portalData);
-        FILE *logjalal = fopen("/logs", "a");
+        logjalal = fopen("/logs", "a");
         fputs("portal ", logjalal);
         fputs(CFStrToChar(CFCopyDescription(portal)), logjalal);
         fclose(logjalal);
@@ -636,7 +636,7 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     if(authorization) {
         if(iSCSIAuthRightsAcquire(authorization,kiSCSIAuthLoginRight) != errAuthorizationSuccess)
             errorCode = EAUTH; 
-        FILE *logjalal = fopen("/logs", "a");
+        logjalal = fopen("/logs", "a");
         fputs("Login Right :\n ", logjalal);
         fputs(CFStrToChar(CFCopyDescription(kiSCSIAuthLoginRight)), logjalal);
         fclose(logjalal);
@@ -666,9 +666,12 @@ errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
     rsp.errorCode = errorCode;
     rsp.statusCode = statusCode;
 
-    FILE *logjalal = fopen("/logs", "a");
+    logjalal = fopen("/logs", "a");
     fputs("Response \n ", logjalal);
-    fputs(CFStrToChar(CFCopyDescription(rsp)), logjalal);
+    fputs(CFStrToChar(itoa(rsp.statusCode)), logjalal);
+    fputs("\n");
+    fputs(CFStrToChar(itoa(rsp.errorCode)), logjalal);
+    fputs("\n");
     fclose(logjalal);
     if (target)
         iSCSITargetRelease(target);
