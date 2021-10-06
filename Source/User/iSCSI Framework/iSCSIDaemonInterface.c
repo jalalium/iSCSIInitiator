@@ -106,7 +106,7 @@ const iSCSIDMsgRemoveSharedSecretCmd iSCSIDMsgRemoveSharedSecretCmdInit = {
 
 iSCSIDaemonHandle iSCSIDaemonConnect()
 {
-    FILE *log = fopen("/logs","w");
+    FILE *log = fopen("/logs","a");
     fputs("Daemon Connect", log);
     iSCSIDaemonHandle handle = socket(PF_LOCAL,SOCK_STREAM,0);
     struct sockaddr_un address;
@@ -175,7 +175,7 @@ errno_t iSCSIDaemonLogin(iSCSIDaemonHandle handle,
                          iSCSIPortalRef portal,
                          enum iSCSILoginStatusCode * statusCode)
 {
-    FILE *log = fopen('/logs',"w");
+    FILE *log = fopen("/logs","a");
     fputs("Daemon Connect", log);
     if(handle < 0 || !target || !authorization || !statusCode)
         return EINVAL;

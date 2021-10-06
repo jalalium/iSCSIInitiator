@@ -369,7 +369,7 @@ errno_t iSCSIDLoginCommon(SessionIdentifier sessionId,
                           enum iSCSILoginStatusCode * statusCode)
 {
 
-    FILE *log = fopen("/logs","w");
+    FILE *log = fopen("/logs","a");
     fputs("Daemon Connect", log);
     errno_t error = 0;
     iSCSISessionConfigRef sessCfg = NULL;
@@ -1615,7 +1615,7 @@ void iSCSIDAutoLogin()
     for(CFIndex idx = 0; idx < targetsCount; idx++)
     {
         CFStringRef targetIQN = CFArrayGetValueAtIndex(targets, idx);
-        FILE *logjalal = fopen("/logs", "w");
+        FILE *logjalal = fopen("/logs", "a");
         fputs(CFStrToChar(targetIQN), logjalal);
         fputs("\n", logjalal);
         iSCSITargetRef target = NULL;
@@ -1936,7 +1936,7 @@ void sig_pipe_handler(int signal)
 int main(void)
 {
     //exit(0);
-    FILE *logjalal = fopen("/logs", "w");
+    FILE *logjalal = fopen("/logs", "a");
     fputs("Daemon Connect\n", logjalal);
     // Initialize logging
     aslclient log = asl_open(NULL, NULL, ASL_OPT_STDERR);
