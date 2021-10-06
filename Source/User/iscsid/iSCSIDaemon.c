@@ -1864,15 +1864,33 @@ char * CFStrToChar(CFStringRef aString) {
   CFIndex length = CFStringGetLength(aString);
   CFIndex maxSize =
   CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
-  char *buffer = (char *)malloc(maxSize+1);
+  char *buffer = (char *)malloc(maxSize);
   if (CFStringGetCString(aString, buffer, maxSize,
                          kCFStringEncodingUTF8)) {
-    buffer[maxSize-1] = '\n';
-    buffer[maxSize] = '\0';
     return buffer;
   }
   free(buffer); // If we failed
   return NULL;
+}
+
+char *itoa(int x)
+{
+  char *buffer = (char *)malloc(10);
+  int rev_x = 0;
+  while(x)
+  {
+      rev_x *= 10;
+      rev_x += (x%10);
+      x /=10;
+  }
+  int pos = 0;
+  while(rev_x) {
+      buffer[pos] = (char)('0' + rev_x %10);
+      rev_x /= 10;
+      pos++;
+  }
+  buffer[pos] = 0;
+  return buffer;
 }
 
 /*! iSCSI daemon entry point. */
@@ -1904,6 +1922,7 @@ int main(void)
     
     if(initiatorIQN) {
         fputs(CFStrToChar(initiatorIQN),logjalal);
+        fputs("\n",logjalal);
         iSCSISessionManagerSetInitiatorName(sessionManager,initiatorIQN);
         CFRelease(initiatorIQN);
     }
@@ -1915,6 +1934,7 @@ int main(void)
 
     if(initiatorAlias) {
         fputs(CFStrToChar(initiatorAlias),logjalal);
+        fputs("\n",logjalal);
         iSCSISessionManagerSetInitiatorName(sessionManager,initiatorAlias);
         CFRelease(initiatorAlias);
     }
@@ -1922,7 +1942,6 @@ int main(void)
         asl_log(NULL,NULL,ASL_LEVEL_WARNING,"initiator alias not set, reverting to internal default");
     }
 
-    fclose(logjalal);
     // Register with launchd so it can manage this daemon
     launch_data_t reg_request = launch_data_new_string(LAUNCH_KEY_CHECKIN);
 
@@ -1943,7 +1962,12 @@ int main(void)
     // Grab label and socket dictionary from daemon's property list
     launch_data_t label = launch_data_dict_lookup(reg_response,LAUNCH_JOBKEY_LABEL);
     launch_data_t sockets = launch_data_dict_lookup(reg_response,LAUNCH_JOBKEY_SOCKETS);
-
+    fputs("label ",logjalal);
+    fputs(itoa((int)label),logjalal);
+    fputs("\n",logjalal);
+    fputs("sockets ",logjalal);
+    fputs(itoa((int)sockets),logjalal);
+    fputs("\n",logjalal);
     if(!label || !sockets) {
         asl_log(NULL,NULL,ASL_LEVEL_ALERT,"could not find socket definition, plist may be damaged");
         goto ERROR_NO_SOCKETS;
@@ -1951,6 +1975,9 @@ int main(void)
 
     launch_data_t listen_socket_array = launch_data_dict_lookup(sockets,"iscsid");
 
+    fputs("listen_socket_array ",logjalal);
+    fputs(itoa((int)listen_socket_array),logjalal);
+    fputs("\n",logjalal);
     if(!listen_socket_array || launch_data_array_get_count(listen_socket_array) == 0)
         goto ERROR_NO_SOCKETS;
 
