@@ -67,6 +67,56 @@
 #include "iSCSIAuthRights.h"
 #include "iSCSIDiscovery.h"
 
+//aux
+
+char *CFStrToChar(CFStringRef aString)
+{
+    if (aString == NULL)
+    {
+        return NULL;
+    }
+
+    CFIndex length = CFStringGetLength(aString);
+    CFIndex maxSize =
+        CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
+    char *buffer = (char *)malloc(maxSize);
+    if (CFStringGetCString(aString, buffer, maxSize,
+                           kCFStringEncodingUTF8))
+    {
+        return buffer;
+    }
+    free(buffer); // If we failed
+    return NULL;
+}
+
+char *itoa(int x)
+{
+    char *buffer = (char *)malloc(10);
+    int rev_x = 0;
+    int pos = 0;
+    if (x < 0)
+    {
+        buffer[pos++] = '-';
+        x *= -1;
+    }
+    while (x)
+    {
+        rev_x *= 10;
+        rev_x += (x % 10);
+        x /= 10;
+    }
+    while (rev_x)
+    {
+        buffer[pos] = (char)('0' + rev_x % 10);
+        rev_x /= 10;
+        pos++;
+    }
+    buffer[pos] = 0;
+    return buffer;
+}
+
+
+
 
 // Used to notify daemon of power state changes
 io_connect_t powerPlaneRoot;
@@ -1882,53 +1932,6 @@ void sig_pipe_handler(int signal)
     reqInfo->fd = 0;
     pthread_mutex_unlock(&preferencesMutex);
 }
-
-char *CFStrToChar(CFStringRef aString)
-{
-    if (aString == NULL)
-    {
-        return NULL;
-    }
-
-    CFIndex length = CFStringGetLength(aString);
-    CFIndex maxSize =
-        CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8) + 1;
-    char *buffer = (char *)malloc(maxSize);
-    if (CFStringGetCString(aString, buffer, maxSize,
-                           kCFStringEncodingUTF8))
-    {
-        return buffer;
-    }
-    free(buffer); // If we failed
-    return NULL;
-}
-
-char *itoa(int x)
-{
-    char *buffer = (char *)malloc(10);
-    int rev_x = 0;
-    int pos = 0;
-    if (x < 0)
-    {
-        buffer[pos++] = '-';
-        x *= -1;
-    }
-    while (x)
-    {
-        rev_x *= 10;
-        rev_x += (x % 10);
-        x /= 10;
-    }
-    while (rev_x)
-    {
-        buffer[pos] = (char)('0' + rev_x % 10);
-        rev_x /= 10;
-        pos++;
-    }
-    buffer[pos] = 0;
-    return buffer;
-}
-
 /*! iSCSI daemon entry point. */
 int main(void)
 {
