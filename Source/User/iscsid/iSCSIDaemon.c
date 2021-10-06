@@ -797,6 +797,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         target = iSCSITargetCreateWithData(targetData);
         CFRelease(targetData);
     }
+    logjalal = fopen("/logs", "a");
+    fputs("1\n", logjalal);
+    fclose(logjalal);
 
     iSCSIPortalRef portal = NULL;
 
@@ -806,6 +809,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         CFRelease(portalData);
     }
 
+    logjalal = fopen("/logs", "a");
+    fputs("2\n", logjalal);
+    fclose(logjalal);
     AuthorizationRef authorization = NULL;
 
     // If authorization data is valid, create authorization object
@@ -821,6 +827,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         CFRelease(authorizationData);
     }
 
+    logjalal = fopen("/logs", "a");
+    fputs("3\n", logjalal);
+    fclose(logjalal);
     // If authorization object is valid, get the necessary rights
     if (authorization)
     {
@@ -832,6 +841,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     else
         errorCode = EINVAL;
 
+    logjalal = fopen("/logs", "a");
+    fputs("4\n", logjalal);
+    fclose(logjalal);
     // See if there exists an active session for this target
     SessionIdentifier sessionId = iSCSISessionGetSessionIdForTarget(sessionManager, iSCSITargetGetIQN(target));
 
