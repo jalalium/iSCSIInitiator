@@ -860,10 +860,17 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
             CFSTR("logout of %@ failed: the target has no active sessions"),
             iSCSITargetGetIQN(target));
 
+        logjalal = fopen("/logs", "a");
+        fputs(CFStrToChar(errorString), logjalal);
+        fputs("\n", logjalal);
+        fclose(logjalal);
         CFIndex errorStringLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(errorString), kCFStringEncodingASCII) + sizeof('\0');
         char errorStringBuffer[errorStringLength];
         CFStringGetCString(errorString, errorStringBuffer, errorStringLength, kCFStringEncodingASCII);
 
+        logjalal = fopen("/logs", "a");
+        fputs("222\n", logjalal);
+        fclose(logjalal);
         asl_log(NULL, NULL, ASL_LEVEL_CRIT, "%s", errorStringBuffer);
 
         CFRelease(errorString);
