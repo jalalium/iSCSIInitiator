@@ -1022,7 +1022,7 @@ errno_t iSCSIDIsTargetActive(int fd, iSCSIDMsgIsTargetActiveCmd *cmd)
         iSCSITargetRelease(target);
 
         if (send(fd, &rsp, sizeof(rsp), 0) != sizeof(rsp))
-            return EAGAIN;
+            return 0;
     }
     return 0;
 }
