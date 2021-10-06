@@ -849,6 +849,7 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
 
 
     logjalal = fopen("/logs", "a");
+    fputs("Session id : ", logjalal);
     fputs(itoa(sessionId), logjalal);
     fputs("\n", logjalal);
     fclose(logjalal);
@@ -869,6 +870,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         errorCode = EINVAL;
     }
 
+    logjalal = fopen("/logs", "a");
+    fputs(5, logjalal);
+    fclose(logjalal);
     // See if there exists an active connection for this portal
     ConnectionIdentifier connectionId = kiSCSIInvalidConnectionId;
     CFIndex connectionCount = 0;
@@ -903,6 +907,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         }
     }
 
+    logjalal = fopen("/logs", "a");
+    fputs(6, logjalal);
+    fclose(logjalal);
     // Unmount volumes if portal not specified (session logout)
     // or if portal is specified and is only connection...
     iSCSIDLogoutContext *context;
@@ -912,7 +919,16 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     context->errorCode = errorCode;
     context->diskSession = NULL;
 
+    logjalal = fopen("/logs", "a");
+    fputs(7, logjalal);
+    fclose(logjalal);
     // Unmount and session logout
+
+    logjalal = fopen("/logs", "a");
+    fputs("error code : ", logjalal);
+    fputs(itoa(errorCode), logjalal);
+    fputs("\n", logjalal);
+    fclose(logjalal);
     if (!errorCode && (!portal || connectionCount == 1))
     {
         context->diskSession = DASessionCreate(kCFAllocatorDefault);
@@ -927,6 +943,9 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
         iSCSIDLogoutComplete(target, kiSCSIDAOperationSuccess, context);
     }
 
+    logjalal = fopen("/logs", "a");
+    fputs(8, logjalal);
+    fclose(logjalal);
     return 0;
 }
 
