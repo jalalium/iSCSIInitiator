@@ -1824,7 +1824,7 @@ void iSCSIDProcessIncomingRequest(void *info)
 
     FILE *logjalal = fopen("/logs", "a");
     fputs("Processing Requests\n", logjalal);
-    fclose(logjalal)
+    fclose(logjalal);
     struct iSCSIDIncomingRequestInfo *reqInfo = (struct iSCSIDIncomingRequestInfo *)info;
     iSCSIDMsgCmd cmd;
 
