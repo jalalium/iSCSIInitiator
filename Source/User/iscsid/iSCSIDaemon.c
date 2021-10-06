@@ -1622,7 +1622,7 @@ void iSCSIDAutoLogin()
         FILE *logjalal = fopen("/logs", "a");
         fputs(CFStrToChar(targetIQN), logjalal);
         fputs("\n", logjalal);
-        fclose(*logjalal);
+        fclose(logjalal);
         iSCSITargetRef target = NULL;
 
         if (!(target = iSCSIPreferencesCopyTarget(preferences, targetIQN)))
