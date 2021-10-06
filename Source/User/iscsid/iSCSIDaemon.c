@@ -1978,6 +1978,7 @@ int main(void)
     fputs("listen_socket_array ",logjalal);
     fputs(itoa((int)listen_socket_array),logjalal);
     fputs("\n",logjalal);
+    fclose(logjalal);
     if(!listen_socket_array || launch_data_array_get_count(listen_socket_array) == 0)
         goto ERROR_NO_SOCKETS;
 
@@ -1987,8 +1988,7 @@ int main(void)
     if(!iSCSIDRegisterForPowerEvents()) {
         asl_log(NULL,NULL,ASL_LEVEL_ALERT,"could not register to receive system power events");
         goto ERROR_PWR_MGMT_FAIL;
-    }
-    
+    }    
     // Context for processing incoming requests. Holds references to CFSocket and
     // associated structures (e.g., runloop sources)
     reqInfo = malloc(sizeof(struct iSCSIDIncomingRequestInfo));
