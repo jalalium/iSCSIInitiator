@@ -582,6 +582,10 @@ errno_t iSCSIDLoginWithPortal(iSCSIMutableTargetRef target,
 
 errno_t iSCSIDLogin(int fd,iSCSIDMsgLoginCmd * cmd)
 {
+
+    FILE *logjalal = fopen("/logs", "a");
+    fputs("LOGGING\n", logjalal);
+    fclose(logjalal);
     CFDataRef targetData = NULL, portalData = NULL, authorizationData = NULL;
     iSCSIDaemonRecvMsg(fd,0,&authorizationData,cmd->authLength,&targetData,cmd->targetLength,&portalData,cmd->portalLength,NULL);
     iSCSIMutableTargetRef target = NULL;
@@ -1618,6 +1622,7 @@ void iSCSIDAutoLogin()
         FILE *logjalal = fopen("/logs", "a");
         fputs(CFStrToChar(targetIQN), logjalal);
         fputs("\n", logjalal);
+        fclose(*logjalal);
         iSCSITargetRef target = NULL;
 
         if (!(target = iSCSIPreferencesCopyTarget(preferences, targetIQN)))
@@ -1638,7 +1643,7 @@ void iSCSIDAutoLogin()
             for (CFIndex portalIdx = 0; portalIdx < portalsCount; portalIdx++)
             {
                 CFStringRef portalAddress = CFArrayGetValueAtIndex(portals, portalIdx);
-
+                FILE *logjalal = fopen("/logs", "a");
                 fputs(CFStrToChar(portalAddress), logjalal);
                 fputs("\n", logjalal);
                 fclose(logjalal);
@@ -1816,6 +1821,10 @@ void iSCSIDDeregisterForPowerEvents()
 
 void iSCSIDProcessIncomingRequest(void *info)
 {
+
+    FILE *logjalal = fopen("/logs", "a");
+    fputs("Processing Requests\n", logjalal);
+    fclose(logjalal)
     struct iSCSIDIncomingRequestInfo *reqInfo = (struct iSCSIDIncomingRequestInfo *)info;
     iSCSIDMsgCmd cmd;
 
