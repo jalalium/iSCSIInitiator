@@ -1919,66 +1919,80 @@ void iSCSIDProcessIncomingRequest(void *info)
             logjalal = fopen("/logs", "a");
         case kiSCSIDLogin:
             fputs("kiSCSIDLogin\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDLogin(fd, (iSCSIDMsgLoginCmd *)&cmd);
             break;
         case kiSCSIDLogout:
             fputs("kiSCSIDLogout\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDLogout(fd, (iSCSIDMsgLogoutCmd *)&cmd);
             break;
         case kiSCSIDCreateArrayOfActiveTargets:
             fputs("kiSCSIDCreateArrayOfActiveTargets\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDCreateArrayOfActiveTargets(fd, (iSCSIDMsgCreateArrayOfActiveTargetsCmd *)&cmd);
             break;
         case kiSCSIDCreateArrayOfActivePortalsForTarget:
             fputs("kiSCSIDCreateArrayOfActivePortalsForTargets\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDCreateArrayofActivePortalsForTarget(fd, (iSCSIDMsgCreateArrayOfActivePortalsForTargetCmd *)&cmd);
             break;
         case kiSCSIDIsTargetActive:
             fputs("kiSCSIDIsTargteActive\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDIsTargetActive(fd, (iSCSIDMsgIsTargetActiveCmd *)&cmd);
             break;
         case kiSCSIDIsPortalActive:
             fputs("kiSCSIDIsPortalActive\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDIsPortalActive(fd, (iSCSIDMsgIsPortalActiveCmd *)&cmd);
             break;
         case kiSCSIDQueryTargetForAuthMethod:
             fputs("kiSCSIDQueryTargetForAuthMethod\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDQueryTargetForAuthMethod(fd, (iSCSIDMsgQueryTargetForAuthMethodCmd *)&cmd);
             break;
         case kiSCSIDCreateCFPropertiesForSession:
             fputs("kiSCSIDCreateCFPropertiesForSession\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDCreateCFPropertiesForSession(fd, (iSCSIDMsgCreateCFPropertiesForSessionCmd *)&cmd);
             break;
         case kiSCSIDCreateCFPropertiesForConnection:
             fputs("kiSCSIDCreateCFPropertiesForConnection\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDCreateCFPropertiesForConnection(fd, (iSCSIDMsgCreateCFPropertiesForConnectionCmd *)&cmd);
             break;
         case kiSCSIDUpdateDiscovery:
             fputs("kiSCSIDUpdateDiscovery\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDUpdateDiscovery(fd, (iSCSIDMsgUpdateDiscoveryCmd *)&cmd);
             break;
         case kiSCSIDPreferencesIOLockAndSync:
             fputs("kiSCSIDPreferencesIOLockAndSync\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDPreferencesIOLockAndSync(fd, (iSCSIDMsgPreferencesIOLockAndSyncCmd *)&cmd);
             break;
         case kiSCSIDPreferencesIOUnlockAndSync:
             fputs("kiSCSIDPreferencesIOUnlockAndSync\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDPreferencesIOUnlockAndSync(fd, (iSCSIDMsgPreferencesIOUnlockAndSyncCmd *)&cmd);
             break;
         case kiSCSIDSetSharedSecret:
             fputs("kiSCSIDSetSharedSecret\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDSetSharedSecret(fd, (iSCSIDMsgSetSharedSecretCmd *)&cmd);
             break;
         case kiSCSIDRemoveSharedSecret:
             fputs("kiSCSIDRemoveSharedSecret\n", logjalal);
+            fclose(logjalal);
             error = iSCSIDRemoveSharedSecret(fd, (iSCSIDMsgRemoveSharedSecretCmd *)&cmd);
             break;
         default:
             fputs("Default\n", logjalal);
+            fclose(logjalal);
             CFSocketInvalidate(reqInfo->socket);
             reqInfo->fd = 0;
             pthread_mutex_unlock(&preferencesMutex);
-        fclose(logjalal);
         };
 
         if (error)
