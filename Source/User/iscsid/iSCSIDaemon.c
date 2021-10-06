@@ -782,6 +782,10 @@ void iSCSIDLogoutComplete(iSCSITargetRef target, enum iSCSIDAOperationResult res
 
 errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
 {
+    
+    FILE *logjalal = fopen("/logs", "a");
+    fputs("Log out\n", logjalal);
+    fclose(logjalal);
     CFDataRef targetData = NULL, portalData = NULL, authorizationData = NULL;
     iSCSIDaemonRecvMsg(fd, 0, &authorizationData, cmd->authLength, &targetData, cmd->targetLength, &portalData, cmd->portalLength, NULL);
     errno_t errorCode = 0;
@@ -831,6 +835,11 @@ errno_t iSCSIDLogout(int fd, iSCSIDMsgLogoutCmd *cmd)
     // See if there exists an active session for this target
     SessionIdentifier sessionId = iSCSISessionGetSessionIdForTarget(sessionManager, iSCSITargetGetIQN(target));
 
+
+    logjalal = fopen("/logs", "a");
+    fputs(itoa(sessionId), logjalal);
+    fputs("\n", logjalal);
+    fclose(logjalal);
     if (!errorCode && sessionId == kiSCSIInvalidSessionId)
     {
         CFStringRef errorString = CFStringCreateWithFormat(

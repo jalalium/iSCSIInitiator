@@ -117,6 +117,8 @@ void iSCSIDAUnmountForTarget(DASessionRef session,
     io_object_t targetObj = iSCSIIORegistryGetTargetEntry(targetIQN);
     
     
+    FILE *logjalal = fopen("/logs", "a");
+    fputs("Unmounting\n", logjalal);
     iSCSIDiskOperationContext * opContext = malloc(sizeof(iSCSIDiskOperationContext));
     opContext->callback = callback;
     opContext->session = session;
